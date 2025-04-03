@@ -17,4 +17,4 @@ jobs:
                 git pull origin && \
                 npm install && \
                 npm run build && \
-                pm2 restart index || pm2 start dist/index.js --name index"
+                pm2 kill index && pm2 start dist/index.js --name index"
