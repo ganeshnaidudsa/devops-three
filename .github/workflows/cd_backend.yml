@@ -16,5 +16,4 @@ jobs:
                 cd ~/devops-three || (git clone https://github.com/ganeshnaidudsa/devops-three.git && cd devops-three)
                 git pull origin && \
                 npm install && \
-                npm run build && \
-                pm2 delete index && pm2 start dist/index.js --name index"
+                pm2 delete index && pm2 start npm --name index -- run dev"
