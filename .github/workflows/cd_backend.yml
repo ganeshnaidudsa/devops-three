@@ -23,8 +23,5 @@ jobs:
                 npm run build
                 pm2 reload backend || pm2 start npm --name backend -- run dev
                 EOF
-    redeploy2:
-        runs-on: ubuntu-latest
-        name : Redeploy frontend
 
 
