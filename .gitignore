@@ -29,3 +29,5 @@ coverage/
 
 # Ignore dependency directories
 vendor/
+
+.github
