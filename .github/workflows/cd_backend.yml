@@ -16,6 +16,7 @@ jobs:
                 cd ~/devops-three && \
                 git pull origin main && \
                 npm install && \
-                npm run build && \ 
-                cat src/index.ts && \
-                pm2 restart index"
+                npm run build && \
+                pm2 stop all && \
+                pm2 delete all && \
+                pm2 start dist/index.js --name my-backend"
