@@ -56,7 +56,7 @@ app.get("/", (req : Request,res : Response) =>{
     })
 })
 
-app.get("/hello",(req : Request,res : Response)=>{
+app.get("/hi",(req : Request,res : Response)=>{
     res.json({
         message : "Newly deployed"
     })
