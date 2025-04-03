@@ -56,6 +56,12 @@ app.get("/", (req : Request,res : Response) =>{
     })
 })
 
+app.get("/hello",(req : Request,res : Response)=>{
+    res.json({
+        message : "Newly deployed"
+    })
+})
+
 // Start server
 app.listen(PORT, () => {
     console.log(`App is listening on http://localhost:${PORT}`);
