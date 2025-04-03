@@ -7,17 +7,32 @@ on:
 jobs:
     redeploy:
         runs-on: ubuntu-latest
-        name: redeploy-everything
+        name: Redeploy Backend
         steps:
-            - run: |
+            - name: Save SSH Key
+              run: |
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
                 chmod 700 ~/ssh_key
-                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
-                cd ~/devops-three && \
+            
+            - name: Login and Restarting Application
+              run: |
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t 
+                "cd ~/devops-three && \
                 git pull origin main && \
                 npm install && \
                 npm run build && \
                 pm2 restart backend || pm2 start npm --name "backend" -- run dev"
+            
+            # - name: Pull and Restart the application
+            # - run: |
+            #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+            #     chmod 700 ~/ssh_key
+            #     ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
+            #     cd ~/devops-three && \
+            #     git pull origin main && \
+            #     npm install && \
+            #     npm run build && \
+            #     pm2 restart backend || pm2 start npm --name "backend" -- run dev"
 
 
                   
