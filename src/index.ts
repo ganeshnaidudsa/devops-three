@@ -58,7 +58,7 @@ app.get("/", (req : Request,res : Response) =>{
 
 app.get("/hello",(req : Request,res : Response)=>{
     res.json({
-        message : "Normal deployed"
+        message : "Last deployed"
     })
 })
 
