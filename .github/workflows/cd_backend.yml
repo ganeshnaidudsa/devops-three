@@ -13,7 +13,8 @@ jobs:
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
                 chmod 700 ~/ssh_key
                 ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
-                cd ~/devops-three || (git clone https://github.com/ganeshnaidudsa/devops-three.git && cd devops-three)
+                cd ~/devops-three && \
                 git pull origin main && \
                 npm install && \
+                npm run build && \
                 pm2 restart index"
