@@ -1,0 +1,20 @@
+name: Deploy Backend
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    redeploy:
+        runs-on: ubuntu-latest
+        name: redeploy-everything
+        steps:
+            - run: |
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+                chmod 700 ~/ssh_key
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
+                rm -rf devops-three && \
+                git clone https://github.com/ganeshnaidudsa/devops-three.git && \
+                cd devops-three && \
+                npm install && \
+                npm run dev"
