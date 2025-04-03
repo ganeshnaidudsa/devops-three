@@ -58,7 +58,13 @@ app.get("/", (req : Request,res : Response) =>{
 
 app.get("/hello",(req : Request,res : Response)=>{
     res.json({
-        message : "Hello from frontend !"
+        message : "Hello from frontend & frontend !"
+    })
+})
+
+app.get("/uday",(req : Request,res : Response)=>{
+    res.json({
+        message : "Hello from frontend & frontend !"
     })
 })
 
