@@ -19,4 +19,4 @@ jobs:
                 npm run build && \ 
                 cat src/index.ts && \
                 pm2 delete index && \
-                pm2 start npm --name index -- run dev"
+                pm2 start dist/index.js"
