@@ -12,13 +12,12 @@ jobs:
             - name: Save SSH Key
               run: |
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-                chmod 600 ~/ssh_key
-                eval "$(ssh-agent -s)"
-                ssh-add ~/ssh_key
+                chmod 700 ~/ssh_key
+                
 
             - name: Login and Restarting Application
               run: |
-                ssh -o StrictHostKeyChecking=no root@139.59.58.88 << 'EOF'
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key  root@139.59.58.88 << 'EOF'
                 set -e  # Stop execution on error
                 cd ~/devops-three
                 git pull origin main
