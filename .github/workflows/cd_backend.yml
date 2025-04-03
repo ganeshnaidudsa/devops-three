@@ -14,6 +14,6 @@ jobs:
                 chmod 700 ~/ssh_key
                 ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
                 cd ~/devops-three || (git clone https://github.com/ganeshnaidudsa/devops-three.git && cd devops-three)
-                git pull origin && \
+                git pull origin main && \
                 npm install && \
-                pm2 delete index && pm2 start npm --name index -- run dev"
+                pm2 restart index"
