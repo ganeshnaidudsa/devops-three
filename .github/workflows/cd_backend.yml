@@ -9,15 +9,23 @@ jobs:
         runs-on: ubuntu-latest
         name: redeploy-everything
         steps:
-            - run: |
-                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-                chmod 700 ~/ssh_key
-                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
-                cd ~/devops-three && \
-                git pull origin main && \
-                npm install && \
-                npm run build && \
-                pm2 delete all && \
-                pm2 start npm --name "backend" -- run dev"
+            - name: Checkout Repository
+              uses: actions/checkout@v4
 
-            
+            - name: Setup SSH Key
+              run: |
+                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+                  chmod 600 ~/ssh_key
+                  eval "$(ssh-agent -s)"
+                  ssh-add ~/ssh_key
+
+            - name: Deploy to Server
+              run: |
+                  ssh -o StrictHostKeyChecking=no root@139.59.58.88 << 'EOF'
+                  set -e  # Exit on error
+                  cd ~/devops-three
+                  git pull origin main
+                  npm ci  # Faster and safer than npm install
+                  npm run build
+                  pm2 reload backend || pm2 start npm --name "backend" -- run dev
+                  EOF
