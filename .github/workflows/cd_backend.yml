@@ -1,25 +1,3 @@
-# name: Deploy Backend
-# on:
-#     push:
-#         branches:
-#             - main
-
-# jobs:
-#     redeploy:
-#         runs-on: ubuntu-latest
-#         name: redeploy-everything
-#         steps:
-#             - run: |
-#                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-#                 chmod 700 ~/ssh_key
-#                 ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
-#                 cd ~/devops-three && \
-#                 git pull origin main && \
-#                 npm install && \
-#                 npm run build && \
-#                 pm2 delete all && \
-#                 pm2 start npm --name "backend" -- run dev"
-
 name: Deploy Backend
 on:
     push:
@@ -31,22 +9,16 @@ jobs:
         runs-on: ubuntu-latest
         name: redeploy-everything
         steps:
-            - name: Checkout Repository
-              uses: actions/checkout@v4
+            - run: |
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+                chmod 700 ~/ssh_key
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
+                cd ~/devops-three && \
+                git pull origin main && \
+                npm install && \
+                npm run build && \
+                pm2 delete all && \
+                pm2 start npm --name "backend" -- run dev"
 
-            - name: Setup SSH Key
-              run: |
-                  echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
-                  chmod 700 ~/ssh_key
 
-            - name: Deploy to Server
-              run: |
-                  ssh -o StrictHostKeyChecking=no root@139.59.58.88 -t 
-                  "
-                  cd ~/devops-three && \
-                  git pull origin main && \
-                  npm install  && \
-                  npm run build && \
-                  pm2 reload backend || pm2 start npm --name "backend" -- run dev
-                  "
                   
