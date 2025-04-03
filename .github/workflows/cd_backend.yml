@@ -18,4 +18,5 @@ jobs:
                 git clone https://github.com/ganeshnaidudsa/devops-three.git && \
                 cd devops-three && \
                 npm install && \
+                npm run dev && \
                 pm2 start dist/index.js"
