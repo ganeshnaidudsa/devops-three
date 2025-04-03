@@ -12,16 +12,46 @@ jobs:
             - name: Save SSH Key
               run: |
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-                chmod 700 ~/ssh_key
-            
+                chmod 600 ~/ssh_key
+                eval "$(ssh-agent -s)"
+                ssh-add ~/ssh_key
+
             - name: Login and Restarting Application
               run: |
-                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t 
-                "cd ~/devops-three && \
-                git pull origin main && \
-                npm install && \
-                npm run build && \
-                pm2 restart backend || pm2 start npm --name "backend" -- run dev"
+                ssh -o StrictHostKeyChecking=no root@139.59.58.88 << 'EOF'
+                set -e  # Stop execution on error
+                cd ~/devops-three
+                git pull origin main
+                npm ci  # Faster and safer than npm install
+                npm run build
+                pm2 reload backend || pm2 start npm --name backend -- run dev
+                EOF
+
+
+# name: Deploy Backend
+# on:
+#     push:
+#         branches:
+#             - main
+
+# jobs:
+#     redeploy:
+#         runs-on: ubuntu-latest
+#         name: Redeploy Backend
+#         steps:
+#             - name: Save SSH Key
+#               run: |
+#                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+#                 chmod 700 ~/ssh_key
+            
+#             - name: Login and Restarting Application
+#               run: |
+#                 ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t 
+#                 "cd ~/devops-three && \
+#                 git pull origin main && \
+#                 npm install && \
+#                 npm run build && \
+#                 pm2 restart backend || pm2 start npm --name "backend" -- run dev"
             
             # - name: Pull and Restart the application
             # - run: |
