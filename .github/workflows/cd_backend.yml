@@ -10,12 +10,12 @@ jobs:
         name: redeploy-everything
         steps:
             - run: |
-                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-                chmod 700 ~/ssh_key
-                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 -t "
-                pm2 delete index && \
-                rm -rf devops-three && \
-                git clone https://github.com/ganeshnaidudsa/devops-three.git && \
-                cd devops-three && \
-                npm install && \
-                pm2 start dist/index.js"
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.58.88 << 'EOF'
+                set -x
+                cd ~/devops-three || (git clone https://github.com/ganeshnaidudsa/devops-three.git && cd devops-three)
+                git pull origin main  # Pull latest changes
+                npm install
+                npm run build  # Ensure the build is done
+                pm2 restart index || pm2 start dist/index.js --name index
+                pm2 save
+                EOF
