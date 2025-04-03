@@ -50,7 +50,7 @@ app.get("/users", (req: Request, res: Response) => {
     res.json(users);
 });
 
-app.get("/temper", (req : Request,res : Response) =>{
+app.get("/", (req : Request,res : Response) =>{
     res.json({
         message : "Hello !"
     })
