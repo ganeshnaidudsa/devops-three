@@ -18,4 +18,5 @@ jobs:
                 npm install && \
                 npm run build && \ 
                 cat src/index.ts && \
-                pm2 restart index"
+                pm2 delete index && \
+                pm2 start npm --name index -- run dev"
