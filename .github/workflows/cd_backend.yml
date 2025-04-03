@@ -16,5 +16,6 @@ jobs:
                 cd ~/devops-three && \
                 git pull origin main && \
                 npm install && \
-                npm run build && \
+                npm run build && \ 
+                cat src/index.ts && \
                 pm2 restart index"
