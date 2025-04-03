@@ -62,7 +62,7 @@ app.get("/hello",(req : Request,res : Response)=>{
     })
 })
 
-app.get("/uday",(req : Request,res : Response)=>{
+app.get("/temper",(req : Request,res : Response)=>{
     res.json({
         message : "Hello from frontend & frontend !"
     })
