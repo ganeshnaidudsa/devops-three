@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build" : "npx tsc -b",
+    "build": "npx tsc -b",
     "dev": "npx tsc -b && node dist/index.js"
   },
   "keywords": [],
@@ -14,7 +14,9 @@
   "dependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
+    "@types/mongoose": "^5.11.97",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongoose": "^8.13.1"
   }
 }
