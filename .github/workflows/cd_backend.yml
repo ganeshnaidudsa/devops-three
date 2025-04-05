@@ -1,27 +1,33 @@
 name: Deploy Backend
+
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    redeploy:
-        runs-on: ubuntu-latest
-        name: Redeploy Backend
-        steps:
-            - name: Save SSH Key
-              run: |
-                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-                chmod 700 ~/ssh_key
-            - name: Login and Restarting Application
-              run: |
-                ssh -o StrictHostKeyChecking=no -i ~/ssh_key  root@139.59.83.188 << 'EOF'
-                set -e  
-                cd ~/devops-three
-                git pull origin main
-                npm ci 
-                npm run build
-                pm2 reload backend || pm2 start npm --name backend -- run dev
-                EOF
+  redeploy:
+    runs-on: ubuntu-latest
+    name: Redeploy Backend
 
+    steps:
+      - name: Save SSH Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
 
+      - name: SSH and Deploy Application
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.83.188 << 'EOF'
+          set -e
+
+          if [ ! -d ~/devops-three ]; then
+            git clone https://github.com/ganeshnaidudsa/devops-three.git ~/devops-three
+          fi
+
+          cd ~/devops-three
+          git pull origin main
+          npm ci
+          npm run build
+          pm2 reload backend || pm2 start npm --name backend -- run dev
+          EOF
