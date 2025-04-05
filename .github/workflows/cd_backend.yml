@@ -16,7 +16,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
 
-      - name: SSH & Deploy Application
+      - name: SSH and Deploy Application
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.83.188 << 'EOF'
           set -e
