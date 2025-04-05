@@ -23,6 +23,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.83.188 << 'EOF'
           set -e
 
+          export DATABASE_URL="${DATABASE_URL}"
+
           if [ ! -d ~/devops-three ]; then
             git clone https://github.com/ganeshnaidudsa/devops-three.git ~/devops-three
           fi

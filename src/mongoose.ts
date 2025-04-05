@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const DB_URL = process.env.DB_URL;
+const DATABASE_URL = process.env.DATABASE_URL;
 
 // Mongoose connection
 const connectDB = async () => {
     try {
-        await mongoose.connect(DB_URL!);
+        await mongoose.connect(DATABASE_URL!);
         console.log('MongoDB connected successfully');
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
