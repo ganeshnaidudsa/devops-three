@@ -3,9 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
-
-const DB_URL = process.env.DB_URL;
+const DB_URL = "mongodb+srv://ganesh:ganesh@devops-three.ecusghv.mongodb.net/";
 
 // Mongoose connection
 const connectDB = async () => {
