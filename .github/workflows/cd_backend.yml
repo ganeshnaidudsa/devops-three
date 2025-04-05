@@ -18,9 +18,9 @@ jobs:
 
       - name: SSH and Deploy Application
         env:
-          DATABASE_URL: ${{secrets.DB_URL}}
+          DATABASE_URL: ${{ secrets.DB_URL }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.83.188 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.83.188 << EOF
           set -e
 
           export DATABASE_URL="${DATABASE_URL}"
@@ -31,7 +31,12 @@ jobs:
 
           cd ~/devops-three
           git pull origin main
+
+          # Create .env file
+          echo "DATABASE_URL=$DATABASE_URL" > .env
+
           npm ci
           npm run build
+
           pm2 reload backend || pm2 start npm --name backend -- run dev
           EOF
