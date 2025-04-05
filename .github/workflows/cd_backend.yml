@@ -17,6 +17,8 @@ jobs:
           chmod 600 ~/ssh_key
 
       - name: SSH and Deploy Application
+        env:
+          DATABASE_URL: ${{secrets.DB_URL}}
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.83.188 << 'EOF'
           set -e
