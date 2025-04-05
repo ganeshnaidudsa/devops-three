@@ -15,7 +15,7 @@ jobs:
                 chmod 700 ~/ssh_key
             - name: Login and Restarting Application
               run: |
-                ssh -o StrictHostKeyChecking=no -i ~/ssh_key  root@139.59.58.88 << 'EOF'
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key  root@139.59.83.188 << 'EOF'
                 set -e  
                 cd ~/devops-three
                 git pull origin main
